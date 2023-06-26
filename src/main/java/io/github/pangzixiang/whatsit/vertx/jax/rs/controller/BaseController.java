@@ -1,6 +1,5 @@
 package io.github.pangzixiang.whatsit.vertx.jax.rs.controller;
 
-import io.github.pangzixiang.whatsit.vertx.jax.rs.model.EndpointInfo;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.model.HttpResponse;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -46,19 +45,19 @@ public class BaseController extends AbstractVerticle {
         log.info("Start to register Controller [{}]", this.getClass().getSimpleName());
         Method[] methods = this.getClass().getMethods();
         Path basePath = this.getClass().getAnnotation(Path.class);
-
+        StringBuilder basePathBuilder = new StringBuilder();
+        if (basePath != null) {
+            if (!basePath.value().startsWith("/")) {
+                basePathBuilder.append("/");
+            }
+            basePathBuilder.append(basePath.value());
+        }
+        String baseUri = basePathBuilder.toString();
         Arrays.stream(methods)
                 .filter(method -> method.getAnnotation(Path.class) != null)
                 .sorted(Comparator.comparing(Method::getName))
                 .map(method -> new EndpointInfo(getVertx(), method))
                 .forEach(endpointInfo -> {
-                    String baseUri = "";
-                    if (basePath != null) {
-                        baseUri = basePath.value();
-                        if (!baseUri.startsWith("/")) {
-                            baseUri = "/" + baseUri;
-                        }
-                    }
                     String path = baseUri + endpointInfo.getUri();
                     String httpMethod = endpointInfo.getHttpMethod();
                     if (StringUtils.isEmpty(endpointInfo.getHttpMethod())) {
@@ -85,7 +84,17 @@ public class BaseController extends AbstractVerticle {
                             routingContext.response().putHeader(HttpHeaders.CONTENT_TYPE, routingContext.getAcceptableContentType());
                             Object result = endpointInfo.getExecuteResult().apply(this, routingContext);
                             if (result != null && !routingContext.response().closed() && !routingContext.response().ended()) {
-                                routingContext.response().end(result instanceof String ? (String) result : Json.encode(result));
+                                if (result instanceof Future<?> futureResult) {
+                                    futureResult.onSuccess(o -> {
+                                        routingContext.response().end(o instanceof String ? (String) o : Json.encode(o));
+                                    }).onFailure(throwable -> {
+                                        log.error("Unhandled Exception --> {} [{}] failed to handle response",
+                                                routingContext.request().method(), routingContext.normalizedPath(), throwable);
+                                        routingContext.fail(HttpResponseStatus.INTERNAL_SERVER_ERROR.code());
+                                    });
+                                } else {
+                                    routingContext.response().end(result instanceof String ? (String) result : Json.encode(result));
+                                }
                             }
                         });
                     }

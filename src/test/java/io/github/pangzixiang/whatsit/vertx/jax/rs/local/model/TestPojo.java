@@ -1,4 +1,4 @@
-package io.github.pangzixiang.whatsit.vertx.jax.rs.controller;
+package io.github.pangzixiang.whatsit.vertx.jax.rs.local.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
