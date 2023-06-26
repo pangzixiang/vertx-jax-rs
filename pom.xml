@@ -4,7 +4,7 @@
 
     <groupId>io.github.pangzixiang.whatsit</groupId>
     <artifactId>vertx-jax-rs</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <name>vertx-jax-rs</name>
     <description>JAX-RS implementation with Vert.x</description>
@@ -339,6 +339,6 @@
         <url>https://github.com/pangzixiang/vertx-jax-rs.git</url>
         <developerConnection>scm:git:https://github.com/pangzixiang/vertx-jax-rs</developerConnection>
         <connection>scm:git:https://github.com/pangzixiang/vertx-jax-rs</connection>
-      <tag>vertx-jax-rs-1.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 </project>
