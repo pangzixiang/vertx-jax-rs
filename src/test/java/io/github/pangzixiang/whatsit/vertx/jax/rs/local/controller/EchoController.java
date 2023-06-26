@@ -4,7 +4,7 @@ import io.github.pangzixiang.whatsit.vertx.jax.rs.annotation.Filter;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.annotation.RequestBody;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.annotation.RestController;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.controller.BaseController;
-import io.github.pangzixiang.whatsit.vertx.jax.rs.controller.TestPojo;
+import io.github.pangzixiang.whatsit.vertx.jax.rs.local.model.TestPojo;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.local.filter.EchoFilter;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.local.filter.TestFilter;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.model.HttpResponse;

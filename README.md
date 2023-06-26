@@ -1,5 +1,6 @@
 # vertx-jax-rs
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.pangzixiang.whatsit/vertx-jax-rs/badge.svg)](https://mvnrepository.com/artifact/io.github.pangzixiang.whatsit/vertx-jax-rs)
+[![CodeQL](https://github.com/pangzixiang/vertx-jax-rs/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/pangzixiang/vertx-jax-rs/actions/workflows/codeql-analysis.yml)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.pangzixiang.whatsit/vertx-jax-rs?logo=apachemaven&logoColor=red)](https://search.maven.org/artifact/io.github.pangzixiang.whatsit/vertx-jax-rs)
 > JAX-RS implementation with [Vert.x](https://vertx.io)
 # Getting Started
 ### Prerequisite
@@ -119,6 +120,16 @@ public class SomeController extends BaseController {
     public void postTest(RoutingContext routingContext) {
         log.info(routingContext.body().asString());
         sendJsonResponse(routingContext, HttpResponseStatus.OK, routingContext.body().asString());
+    }
+
+    @Path("/select/{testValue}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Future<TestTableEntity> select(RoutingContext routingContext, @PathParam("testValue") String testValue) {
+        return ApplicationContext.getApplicationContext().getJdbcPool().withConnection(sqlConnection -> this.testRepository.select(sqlConnection, testValue))
+                .onFailure(throwable -> {
+                    this.sendJsonResponse(routingContext, HttpResponseStatus.BAD_REQUEST, throwable.getMessage());
+                });
     }
 }
 ```

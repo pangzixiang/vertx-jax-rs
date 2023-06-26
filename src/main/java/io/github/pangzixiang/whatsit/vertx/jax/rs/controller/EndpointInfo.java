@@ -1,4 +1,4 @@
-package io.github.pangzixiang.whatsit.vertx.jax.rs.model;
+package io.github.pangzixiang.whatsit.vertx.jax.rs.controller;
 
 import io.github.pangzixiang.whatsit.vertx.jax.rs.annotation.Filter;
 import io.github.pangzixiang.whatsit.vertx.jax.rs.annotation.RequestBody;
@@ -32,7 +32,7 @@ import static io.github.pangzixiang.whatsit.vertx.jax.rs.utils.VerticleUtils.dep
  */
 @Slf4j
 @Getter
-public class EndpointInfo {
+class EndpointInfo {
     private final String name;
     private final Method method;
     private final Class<?> returnType;
