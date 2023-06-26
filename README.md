@@ -1,11 +1,17 @@
 # vertx-jax-rs
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.github.pangzixiang.whatsit/vertx-jax-rs/badge.svg)](https://mvnrepository.com/artifact/io.github.pangzixiang.whatsit/vertx-jax-rs)
 > JAX-RS implementation with [Vert.x](https://vertx.io)
-
 # Getting Started
 ### Prerequisite
 - JDK 17
 - Maven
-
+```xml
+<dependency>
+    <groupId>io.github.pangzixiang.whatsit</groupId>
+    <artifactId>vertx-jax-rs</artifactId>
+    <version>{version}</version>
+</dependency>
+```
 ### Technology Stack
 - JDK 17
 - [Vert.x](https://vertx.io)
